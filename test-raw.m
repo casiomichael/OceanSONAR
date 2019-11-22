@@ -1,0 +1,12 @@
+clear all;
+close all;
+fid = fopen('20in');
+A = fread(fid,'int16');
+figure(1);
+plot(A);
+fclose(fid);
+fid2 = fopen('testdata');
+B = fread(fid2, 'int16');
+figure(2);
+plot(B);
+fclose(fid2);
