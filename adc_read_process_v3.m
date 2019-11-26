@@ -35,7 +35,7 @@ Fs = 250000;%\exp1_online\pi2
 
 %% file
 %CHANGE FIlE LOCATION
-data_folder = '191121_rpi4-tests';    % change to whatever set of data you are trying to analyze
+data_folder = '191126_rpi4-tests';    % change to whatever set of data you are trying to analyze
 data_dir = fullfile('data',data_folder);
 all_files = dir(data_dir);   
 file_names = {all_files.name};
@@ -62,55 +62,55 @@ output_path = strcat('outputs\',data_folder);   % defines the folder the output 
     xlabel('samples per second'); % tbh not entirely sure, we think this is what Dr. Brooke told us
     saveas(gcf, fullfile(output_path,curr_file_str,strcat(curr_file_str, '_raw.png')))
     
-    
-    %% done by fall 2018 group
-    for i=1:1:length(A)
-       if A(i)>bitsll(1,14)
-    %        A(i)=bitor(A(i),bitsll(1,16));
-            A(i)=A(i)-bitsll(1,15);
-       end
-    end
-
-    % % A=bitand(A,32767);
-    % figure(4);clf
-    % plot(A); 
-
-    bpA = processdata(A,Fs,curr_file_str,output_path);    %    mainly uses this for naming purposes, which is why we dont use fname
-
-
-    L = length(bpA);
-    time = (0:(L-1))*(1/Fs);
-
-    FFTA = fft(bpA); fftshift(FFTA);
-
-    P2 = abs(FFTA/L);
-    P1 = P2(1:round(L/2+1));
-    P1(2:end-1) = 2*P1(2:end-1);
-    f = Fs*(0:(L/2))/L;
-
-    h = figure('visible', 'on');
-    figure(2);
-    plot(P1);
-    pt = strcat('Single-Sided Amplitude Spectrum of Output of ADC_', curr_file_str);
-    title(pt, 'Interpreter', 'none'); 
-    xlabel('f (Hz)');
-    ylabel('magnitude');
-    
-    %CHANGE FIlE LOCATION
-     saveas(gcf, fullfile(output_path,curr_file_str,strcat(curr_file_str, '_SSAS.png')));  
-
-      %% Convolution
-        ConVD = conv(P1,bped2);
-        
-        %Plotting and Saving
-        h1 = figure('visible', 'on');        
-        figure(6);
-        plot(ConVD);
-        xlabel('f (Hz)');
-        ylabel('magnitude');
-        str = strcat('Convolved Square Pulse Train and Processed Data for ', curr_file_str);
-        title(str); 
-        saveas(gcf, fullfile(output_path,curr_file_str,strcat('Convolved Square Pulse Train and Processed Data for', curr_file_str, '.png')));
+%     TO SEE GRAPHS OTHER THAN THE RAW DATA, UNCOMMENT LINES 66-113
+%     %% done by fall 2018 group
+%     for i=1:1:length(A)
+%        if A(i)>bitsll(1,14)
+%     %        A(i)=bitor(A(i),bitsll(1,16));
+%             A(i)=A(i)-bitsll(1,15);
+%        end
+%     end
+% 
+%     % % A=bitand(A,32767);
+%     % figure(4);clf
+%     % plot(A); 
+% 
+%     bpA = processdata(A,Fs,curr_file_str,output_path);    %    mainly uses this for naming purposes, which is why we dont use fname
+% 
+% 
+%     L = length(bpA);
+%     time = (0:(L-1))*(1/Fs);
+% 
+%     FFTA = fft(bpA); fftshift(FFTA);
+% 
+%     P2 = abs(FFTA/L);
+%     P1 = P2(1:round(L/2+1));
+%     P1(2:end-1) = 2*P1(2:end-1);
+%     f = Fs*(0:(L/2))/L;
+% 
+%     h = figure('visible', 'on');
+%     figure(2);
+%     plot(P1);
+%     pt = strcat('Single-Sided Amplitude Spectrum of Output of ADC_', curr_file_str);
+%     title(pt, 'Interpreter', 'none'); 
+%     xlabel('f (Hz)');
+%     ylabel('magnitude');
+%     
+%     %CHANGE FIlE LOCATION
+%      saveas(gcf, fullfile(output_path,curr_file_str,strcat(curr_file_str, '_SSAS.png')));  
+% 
+%       %% Convolution
+%         ConVD = conv(P1,bped2);
+%         
+%         %Plotting and Saving
+%         h1 = figure('visible', 'on');        
+%         figure(6);
+%         plot(ConVD);
+%         xlabel('f (Hz)');
+%         ylabel('magnitude');
+%         str = strcat('Convolved Square Pulse Train and Processed Data for ', curr_file_str);
+%         title(str); 
+%         saveas(gcf, fullfile(output_path,curr_file_str,strcat('Convolved Square Pulse Train and Processed Data for', curr_file_str, '.png')));
 
       %break
  end
